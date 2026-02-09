@@ -1,5 +1,29 @@
 # Design Document: Trust-Aware Middleware
 
+## Design Summary
+
+This middleware is a trust-aware reliability layer for AI-driven civic systems. It evaluates the stability and consistency of AI detection outputs over time and gates automation decisions based on a computed trust score.
+
+**The system does NOT replace existing AI models, identify individuals, or make enforcement decisions.** It only determines whether automation should proceed or be held for human review.
+
+### Key Capabilities
+
+- **Temporal trust evaluation**: Analyzes confidence, position, and class consistency over time
+- **Automation gating**: Routes decisions based on trust thresholds
+- **Clear reason codes**: Explains trust degradation with specific, actionable codes
+- **Human-in-the-loop decision support**: Holds uncertain decisions for review
+- **Simulation-based demonstration**: Tests without real civic infrastructure
+
+### Primary Use Case
+
+Prevent unsafe or incorrect automated actions (e.g., false challans) under real-world conditions such as poor lighting, weather, or camera degradation.
+
+---
+
+*The detailed sections below describe the full system architecture, components, and validation properties.*
+
+---
+
 ## Overview
 
 The trust-aware middleware is a reliability evaluation layer that sits between AI detection systems and automated decision-making processes. It addresses the critical problem of silent AI failures in civic systems by computing trust scores based on temporal stability and confidence consistency, then gating automation decisions accordingly.

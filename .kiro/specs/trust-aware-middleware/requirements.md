@@ -4,6 +4,15 @@
 
 This document specifies the requirements for a trust-aware middleware system designed to improve the reliability of AI-based civic systems in India. The middleware evaluates AI detection outputs over time and gates automated decisions based on computed trust scores. When AI reliability is uncertain, the system holds decisions for human review, reducing false automation and increasing public trust in civic AI systems operating under challenging real-world conditions.
 
+### Out of Scope
+
+The following capabilities are explicitly **NOT** part of this system:
+
+- **Face recognition or identity tracking**: The system does not identify individuals or track personal identities
+- **Predictive policing or behavior analysis**: The system does not predict criminal behavior or analyze individual patterns
+- **Autonomous enforcement or punishment**: The system does not make enforcement decisions or issue penalties autonomously
+- **Real-time government system integration**: This is a prototype demonstration system, not integrated with live civic infrastructure
+
 ## Glossary
 
 - **Middleware**: The trust evaluation layer that sits between AI detection systems and decision-making processes
