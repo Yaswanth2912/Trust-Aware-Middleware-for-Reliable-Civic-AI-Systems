@@ -1,8 +1,8 @@
-# Design Document: Trust-Aware Middleware
+# Design Document: SafeStack AI
 
 ## Design Summary
 
-This middleware is a trust-aware reliability layer for AI-driven civic systems. It evaluates the stability and consistency of AI detection outputs over time and gates automation decisions based on a computed trust score.
+**SafeStack AI** is a reliability middleware for AI-driven civic systems. It evaluates the stability and consistency of AI detection outputs over time and gates automation decisions based on a computed trust score.
 
 **The system does NOT replace existing AI models, identify individuals, or make enforcement decisions.** It only determines whether automation should proceed or be held for human review.
 
@@ -26,11 +26,11 @@ Prevent unsafe or incorrect automated actions (e.g., false challans) under real-
 
 ## Overview
 
-The trust-aware middleware is a reliability evaluation layer that sits between AI detection systems and automated decision-making processes. It addresses the critical problem of silent AI failures in civic systems by computing trust scores based on temporal stability and confidence consistency, then gating automation decisions accordingly.
+SafeStack AI is a reliability evaluation layer that sits between AI detection systems and automated decision-making processes. It addresses the critical problem of silent AI failures in civic systems by computing trust scores based on temporal stability and confidence consistency, then gating automation decisions accordingly.
 
 ### Core Design Principles
 
-1. **Non-invasive Integration**: The middleware accepts standard detection outputs without requiring modifications to upstream AI models or downstream decision systems.
+1. **Non-invasive Integration**: SafeStack AI accepts standard detection outputs without requiring modifications to upstream AI models or downstream decision systems.
 
 2. **Temporal Analysis**: Trust evaluation is based on analyzing detection patterns over time windows rather than single-frame assessments, capturing reliability trends.
 
@@ -42,7 +42,7 @@ The trust-aware middleware is a reliability evaluation layer that sits between A
 
 ### System Context
 
-The middleware operates in civic AI systems (e.g., traffic monitoring, parking enforcement) where:
+SafeStack AI operates in civic AI systems (e.g., traffic monitoring, parking enforcement) where:
 - AI detection systems produce bounding boxes and confidence scores for objects in video frames
 - Environmental conditions (lighting, weather, camera quality) vary significantly
 - False automation can erode public trust and cause operational issues
@@ -625,15 +625,15 @@ class Metrics:
 ### Input Validation Properties
 
 **Property 1: Valid detection parsing**
-*For any* valid detection output in JSON format with bounding boxes, class labels, and confidence scores, the middleware should successfully parse it without errors.
+*For any* valid detection output in JSON format with bounding boxes, class labels, and confidence scores, SafeStack AI should successfully parse it without errors.
 **Validates: Requirements 1.1, 1.4**
 
 **Property 2: Invalid detection rejection**
-*For any* malformed detection output (missing fields, invalid coordinates, out-of-range confidence scores), the middleware should reject it and return a descriptive error message.
+*For any* malformed detection output (missing fields, invalid coordinates, out-of-range confidence scores), SafeStack AI should reject it and return a descriptive error message.
 **Validates: Requirements 1.2**
 
 **Property 3: Temporal ordering preservation**
-*For any* sequence of detection outputs with monotonically increasing timestamps, the middleware should maintain the same temporal ordering in its internal state.
+*For any* sequence of detection outputs with monotonically increasing timestamps, SafeStack AI should maintain the same temporal ordering in its internal state.
 **Validates: Requirements 1.3**
 
 ### Trust Score Computation Properties
@@ -705,21 +705,21 @@ class Metrics:
 ### Configuration Properties
 
 **Property 19: Configuration parameter application**
-*For any* valid configuration parameter (trust threshold, temporal window size, confidence threshold, stability threshold) and valid value, setting the parameter should result in the middleware using that value in subsequent computations.
+*For any* valid configuration parameter (trust threshold, temporal window size, confidence threshold, stability threshold) and valid value, setting the parameter should result in SafeStack AI using that value in subsequent computations.
 **Validates: Requirements 5.1, 5.2, 5.3, 5.4**
 
 **Property 20: Invalid configuration rejection**
-*For any* invalid configuration value (negative numbers, out-of-range values, invalid types), the middleware should reject the configuration and return a descriptive error.
+*For any* invalid configuration value (negative numbers, out-of-range values, invalid types), SafeStack AI should reject the configuration and return a descriptive error.
 **Validates: Requirements 5.5**
 
 ### Object Tracking Properties
 
 **Property 21: Position variance computation**
-*For any* tracked object with a detection history, the middleware should compute position variance across the temporal window.
+*For any* tracked object with a detection history, SafeStack AI should compute position variance across the temporal window.
 **Validates: Requirements 6.1**
 
 **Property 22: Confidence variance computation**
-*For any* tracked object with a detection history, the middleware should compute confidence variance across the temporal window.
+*For any* tracked object with a detection history, SafeStack AI should compute confidence variance across the temporal window.
 **Validates: Requirements 6.2**
 
 **Property 23: Multi-object tracking independence**
@@ -767,7 +767,7 @@ class Metrics:
 ### Simulation Properties
 
 **Property 32: Simulator output round-trip**
-*For any* detection output generated by the simulator, it should be successfully parseable by the middleware's detection input handler.
+*For any* detection output generated by the simulator, it should be successfully parseable by SafeStack AI's detection input handler.
 **Validates: Requirements 10.1, 10.4**
 
 **Property 33: Scenario configuration reflection**
@@ -778,7 +778,7 @@ class Metrics:
 
 ### Error Categories
 
-The middleware defines four categories of errors:
+SafeStack AI defines four categories of errors:
 
 1. **Validation Errors**: Invalid input data or configuration
 2. **Processing Errors**: Failures during trust computation or tracking

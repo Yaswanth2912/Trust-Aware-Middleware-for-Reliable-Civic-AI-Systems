@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This document specifies the requirements for a trust-aware middleware system designed to improve the reliability of AI-based civic systems in India. The middleware evaluates AI detection outputs over time and gates automated decisions based on computed trust scores. When AI reliability is uncertain, the system holds decisions for human review, reducing false automation and increasing public trust in civic AI systems operating under challenging real-world conditions.
+This document specifies the requirements for **SafeStack AI**, a reliability middleware for AI-driven civic systems designed to improve the reliability of AI-based civic systems in India. SafeStack AI evaluates AI detection outputs over time and gates automated decisions based on computed trust scores. When AI reliability is uncertain, the system holds decisions for human review, reducing false automation and increasing public trust in civic AI systems operating under challenging real-world conditions.
 
 ### Out of Scope
 
@@ -15,6 +15,7 @@ The following capabilities are explicitly **NOT** part of this system:
 
 ## Glossary
 
+- **SafeStack AI**: The reliability middleware for AI-driven civic systems that evaluates trust and gates automation decisions
 - **Middleware**: The trust evaluation layer that sits between AI detection systems and decision-making processes
 - **AI_Detection_System**: The upstream object detection model that produces bounding boxes and confidence scores
 - **Trust_Score**: A computed metric (0.0 to 1.0) representing the reliability of AI outputs based on temporal stability and confidence consistency
@@ -34,10 +35,10 @@ The following capabilities are explicitly **NOT** part of this system:
 
 #### Acceptance Criteria
 
-1. WHEN a Detection_Output is received, THE Middleware SHALL parse bounding boxes, class labels, and confidence scores
-2. WHEN a Detection_Output contains malformed data, THE Middleware SHALL reject it and return a descriptive error
-3. WHEN Detection_Outputs arrive in sequence, THE Middleware SHALL maintain temporal ordering for analysis
-4. THE Middleware SHALL accept Detection_Outputs in a standard format (JSON with bounding box coordinates, class labels, and confidence scores)
+1. WHEN a Detection_Output is received, SafeStack AI SHALL parse bounding boxes, class labels, and confidence scores
+2. WHEN a Detection_Output contains malformed data, SafeStack AI SHALL reject it and return a descriptive error
+3. WHEN Detection_Outputs arrive in sequence, SafeStack AI SHALL maintain temporal ordering for analysis
+4. SafeStack AI SHALL accept Detection_Outputs in a standard format (JSON with bounding box coordinates, class labels, and confidence scores)
 
 ### Requirement 2: Compute Trust Scores
 
@@ -45,12 +46,12 @@ The following capabilities are explicitly **NOT** part of this system:
 
 #### Acceptance Criteria
 
-1. WHEN analyzing Detection_Outputs within a Temporal_Window, THE Middleware SHALL compute a Trust_Score between 0.0 and 1.0
-2. WHEN confidence scores are consistently high across the Temporal_Window, THE Middleware SHALL increase the Trust_Score
-3. WHEN detection positions vary significantly across consecutive frames, THE Middleware SHALL decrease the Trust_Score
-4. WHEN detection classes change for the same tracked object, THE Middleware SHALL decrease the Trust_Score
-5. WHEN confidence scores fluctuate significantly within the Temporal_Window, THE Middleware SHALL decrease the Trust_Score
-6. THE Middleware SHALL update Trust_Scores incrementally as new Detection_Outputs arrive
+1. WHEN analyzing Detection_Outputs within a Temporal_Window, SafeStack AI SHALL compute a Trust_Score between 0.0 and 1.0
+2. WHEN confidence scores are consistently high across the Temporal_Window, SafeStack AI SHALL increase the Trust_Score
+3. WHEN detection positions vary significantly across consecutive frames, SafeStack AI SHALL decrease the Trust_Score
+4. WHEN detection classes change for the same tracked object, SafeStack AI SHALL decrease the Trust_Score
+5. WHEN confidence scores fluctuate significantly within the Temporal_Window, SafeStack AI SHALL decrease the Trust_Score
+6. SafeStack AI SHALL update Trust_Scores incrementally as new Detection_Outputs arrive
 
 ### Requirement 3: Gate Automation Decisions
 
@@ -60,8 +61,8 @@ The following capabilities are explicitly **NOT** part of this system:
 
 1. WHEN a Trust_Score exceeds the Trust_Threshold, THE Decision_Gate SHALL allow automation
 2. WHEN a Trust_Score falls below the Trust_Threshold, THE Decision_Gate SHALL hold the decision for human review
-3. WHEN a decision is held for human review, THE Middleware SHALL add it to the Human_Review_Queue
-4. WHEN automation is allowed, THE Middleware SHALL forward the decision with the Trust_Score attached
+3. WHEN a decision is held for human review, SafeStack AI SHALL add it to the Human_Review_Queue
+4. WHEN automation is allowed, SafeStack AI SHALL forward the decision with the Trust_Score attached
 
 ### Requirement 4: Provide Reason Codes
 
@@ -69,11 +70,11 @@ The following capabilities are explicitly **NOT** part of this system:
 
 #### Acceptance Criteria
 
-1. WHEN a Trust_Score is reduced, THE Middleware SHALL generate at least one Reason_Code explaining the reduction
-2. WHEN confidence scores are below a threshold, THE Middleware SHALL include a "low_confidence" Reason_Code
-3. WHEN detection positions are unstable, THE Middleware SHALL include an "unstable_detections" Reason_Code
-4. WHEN detection classes change unexpectedly, THE Middleware SHALL include a "temporal_inconsistency" Reason_Code
-5. WHEN multiple factors reduce trust, THE Middleware SHALL include all applicable Reason_Codes
+1. WHEN a Trust_Score is reduced, SafeStack AI SHALL generate at least one Reason_Code explaining the reduction
+2. WHEN confidence scores are below a threshold, SafeStack AI SHALL include a "low_confidence" Reason_Code
+3. WHEN detection positions are unstable, SafeStack AI SHALL include an "unstable_detections" Reason_Code
+4. WHEN detection classes change unexpectedly, SafeStack AI SHALL include a "temporal_inconsistency" Reason_Code
+5. WHEN multiple factors reduce trust, SafeStack AI SHALL include all applicable Reason_Codes
 
 ### Requirement 5: Configure Trust Parameters
 
@@ -81,11 +82,11 @@ The following capabilities are explicitly **NOT** part of this system:
 
 #### Acceptance Criteria
 
-1. THE Middleware SHALL allow configuration of the Trust_Threshold value
-2. THE Middleware SHALL allow configuration of the Temporal_Window size
-3. THE Middleware SHALL allow configuration of confidence score thresholds for trust evaluation
-4. THE Middleware SHALL allow configuration of detection stability thresholds
-5. WHEN invalid configuration values are provided, THE Middleware SHALL reject them and return descriptive errors
+1. SafeStack AI SHALL allow configuration of the Trust_Threshold value
+2. SafeStack AI SHALL allow configuration of the Temporal_Window size
+3. SafeStack AI SHALL allow configuration of confidence score thresholds for trust evaluation
+4. SafeStack AI SHALL allow configuration of detection stability thresholds
+5. WHEN invalid configuration values are provided, SafeStack AI SHALL reject them and return descriptive errors
 
 ### Requirement 6: Track Detection Consistency
 
@@ -93,10 +94,10 @@ The following capabilities are explicitly **NOT** part of this system:
 
 #### Acceptance Criteria
 
-1. WHEN tracking an object across frames, THE Middleware SHALL compute position variance within the Temporal_Window
-2. WHEN tracking an object across frames, THE Middleware SHALL compute confidence variance within the Temporal_Window
-3. WHEN an object disappears and reappears, THE Middleware SHALL handle the gap appropriately without falsely penalizing trust
-4. THE Middleware SHALL maintain tracking state for multiple objects simultaneously
+1. WHEN tracking an object across frames, SafeStack AI SHALL compute position variance within the Temporal_Window
+2. WHEN tracking an object across frames, SafeStack AI SHALL compute confidence variance within the Temporal_Window
+3. WHEN an object disappears and reappears, SafeStack AI SHALL handle the gap appropriately without falsely penalizing trust
+4. SafeStack AI SHALL maintain tracking state for multiple objects simultaneously
 
 ### Requirement 7: Manage Human Review Queue
 
@@ -104,10 +105,10 @@ The following capabilities are explicitly **NOT** part of this system:
 
 #### Acceptance Criteria
 
-1. WHEN a decision is added to the Human_Review_Queue, THE Middleware SHALL store the Detection_Output, Trust_Score, and Reason_Codes
-2. WHEN retrieving items from the Human_Review_Queue, THE Middleware SHALL return them in chronological order
-3. WHEN a human reviewer approves a decision, THE Middleware SHALL remove it from the Human_Review_Queue
-4. WHEN a human reviewer rejects a decision, THE Middleware SHALL remove it from the Human_Review_Queue and mark it as rejected
+1. WHEN a decision is added to the Human_Review_Queue, SafeStack AI SHALL store the Detection_Output, Trust_Score, and Reason_Codes
+2. WHEN retrieving items from the Human_Review_Queue, SafeStack AI SHALL return them in chronological order
+3. WHEN a human reviewer approves a decision, SafeStack AI SHALL remove it from the Human_Review_Queue
+4. WHEN a human reviewer rejects a decision, SafeStack AI SHALL remove it from the Human_Review_Queue and mark it as rejected
 
 ### Requirement 8: Handle Real-World Conditions
 
@@ -115,10 +116,10 @@ The following capabilities are explicitly **NOT** part of this system:
 
 #### Acceptance Criteria
 
-1. WHEN confidence scores drop due to environmental conditions, THE Middleware SHALL reduce Trust_Scores appropriately
-2. WHEN detection quality degrades gradually over time, THE Middleware SHALL detect the trend and reduce Trust_Scores
-3. WHEN sudden environmental changes occur (e.g., lighting changes), THE Middleware SHALL not over-penalize temporary instability
-4. THE Middleware SHALL distinguish between temporary fluctuations and sustained reliability issues
+1. WHEN confidence scores drop due to environmental conditions, SafeStack AI SHALL reduce Trust_Scores appropriately
+2. WHEN detection quality degrades gradually over time, SafeStack AI SHALL detect the trend and reduce Trust_Scores
+3. WHEN sudden environmental changes occur (e.g., lighting changes), SafeStack AI SHALL not over-penalize temporary instability
+4. SafeStack AI SHALL distinguish between temporary fluctuations and sustained reliability issues
 
 ### Requirement 9: Provide Trust Metrics
 
@@ -126,11 +127,11 @@ The following capabilities are explicitly **NOT** part of this system:
 
 #### Acceptance Criteria
 
-1. THE Middleware SHALL compute the average Trust_Score over a configurable time period
-2. THE Middleware SHALL track the percentage of decisions requiring human review
-3. THE Middleware SHALL track the distribution of Reason_Codes over time
-4. THE Middleware SHALL provide metrics on detection consistency and confidence stability
-5. WHEN metrics are requested, THE Middleware SHALL return them in a structured format
+1. SafeStack AI SHALL compute the average Trust_Score over a configurable time period
+2. SafeStack AI SHALL track the percentage of decisions requiring human review
+3. SafeStack AI SHALL track the distribution of Reason_Codes over time
+4. SafeStack AI SHALL provide metrics on detection consistency and confidence stability
+5. WHEN metrics are requested, SafeStack AI SHALL return them in a structured format
 
 ### Requirement 10: Simulate Civic AI Detection
 
