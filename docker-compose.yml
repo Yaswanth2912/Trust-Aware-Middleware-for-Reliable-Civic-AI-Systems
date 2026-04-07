@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  civic-middleware:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - NEXTTOKEN_API_KEY=${NEXTTOKEN_API_KEY}
+      - APP_MODE=production
+      - DB_PATH=/app/backend/data/db/traffic_data.db
+    volumes:
+      - ./backend/data/db:/app/backend/data/db
+    restart: always
+
+  # Optional - For local development or caching
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: always
